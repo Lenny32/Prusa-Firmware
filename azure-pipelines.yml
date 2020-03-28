@@ -52,7 +52,7 @@ steps:
       fi
       echo $DEV_CHECK
 
-      ./PF-build.sh $(CONFIGURATIONFILE) $LANGUAGE $DEV_CHECK
+      #./PF-build.sh $(CONFIGURATIONFILE) $LANGUAGE $DEV_CHECK
       #cp '../PF-build-hex/FW$FW-$DEV_CHECK-Build$BUILD/BOARD_EINSY_1_0a/FW$FW-$DEV_CHECK-Build$(BUILD)-$(BOARDNAME)ex' '$(Build.ArtifactStagingDirectory)/FW$(FW)-$DEV_CHECK-Build$BUILD-$(BOARDNAME)ex'
   
   displayName: Build Hemera Bear English only release
