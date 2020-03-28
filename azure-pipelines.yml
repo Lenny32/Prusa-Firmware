@@ -36,9 +36,9 @@ steps:
       echo $BUILD
       echo $MOTHERBOARD
       echo $DEV_CHECK
-      
-      echo "../PF-build-hex/FW$FW-$DEV_CHECK-Build$COMMIT/BOARD_EINSY_1_0a/FW$FW-$DEV_CHECK-Build$BUILD-$BOARDNAMEex"
-      echo "$(Build.ArtifactStagingDirectory)/FW$FW-$DEV_CHECK-Build$BUILD-$BOARDNAMEex"
+      echo $CONFIGURATIONFILE
+      echo "../PF-build-hex/FW$FW-$DEV_CHECK-Build$COMMIT/BOARD_EINSY_1_0a/FW$FW-$DEV_CHECK-Build$BUILD-$BOARDNAME$CONFIGURATIONFILEex"
+      echo "$(Build.ArtifactStagingDirectory)/FW$FW-$DEV_CHECK-Build$BUILD-$BOARDNAME$CONFIGURATIONFILEex"
 
       #./PF-build.sh $BOARDNAME $LANGUAGE $DEV_CHECK
       #cp '../PF-build-hex/FW$FW-$DEV_CHECK-Build$BUILD/BOARD_EINSY_1_0a/FW$FW-$DEV_CHECK-Build$(BUILD)-$(BOARDNAME)ex' '$(Build.ArtifactStagingDirectory)/FW$(FW)-$DEV_CHECK-Build$BUILD-$(BOARDNAME)ex'
