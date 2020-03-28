@@ -60,10 +60,6 @@ steps:
 
       ./PF-build.sh "$(CONFIGURATIONFILE).h" $LANGUAGE $DEV_CHECK
       cp $SOURCE $DEST
-      #ls "../PF-build-hex/FW390-RC1-Build$BUILD/BOARD_EINSY_1_0a/" 
-      #./PF-build.sh $BOARDNAME $LANGUAGE $DEV_CHECK
-      #cp '../PF-build-hex/FW$FW-$DEV_CHECK-Build$BUILD/BOARD_EINSY_1_0a/FW$FW-$DEV_CHECK-Build$(BUILD)-$(BOARDNAME)ex' '$(Build.ArtifactStagingDirectory)/FW$(FW)-$DEV_CHECK-Build$BUILD-$(BOARDNAME)ex'
-  
   displayName: Build Hemera Bear English only release
 
 - task: PublishBuildArtifacts@1
