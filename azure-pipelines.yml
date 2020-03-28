@@ -23,4 +23,12 @@ steps:
     script: |
       # Write your commands here   
       ./PF-build.sh 1_75mm_MK3S-Bear-EINSy10a-E3D-Hemera.h EN_ONLY
-  displayName: Multiline Bash script
+  displayName: Build Hemera Bear English only release
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '../PrusaFirmware/PF-build-hex/FW390-RC1-Build3272/BOARD_EINSY_1_0a/FW390-RC1-Build3272-1_75mm_MK3S-Bear-EINSy10a-E3D-Hemera.hex'
+    includeRootFolder: true
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    replaceExistingArchive: true
+    verbose: true
