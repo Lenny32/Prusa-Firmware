@@ -19,6 +19,7 @@ steps:
       #cp ../PF-build-hex/FW390-RC1-Build3272/BOARD_EINSY_1_0a/FW390-RC1-Build3272-1_75mm_MK3S-Bear-EINSy10a-E3D-Hemera.hex .
       cp ../PF-build-hex/FW390-RC1-Build3272/BOARD_EINSY_1_0a/FW390-RC1-Build3272-1_75mm_MK3S-Bear-EINSy10a-E3D-Hemera-EN_ONLY.hex $(Build.ArtifactStagingDirectory)/FW390-RC1-Build3272-1_75mm_MK3S-Bear-EINSy10a-E3D-Hemera-EN_ONLY.hex
   displayName: Build Hemera Bear English only release
+
 - task: ArchiveFiles@2
   inputs:
     #rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/FW390-RC1-Build3272-1_75mm_MK3S-Bear-EINSy10a-E3D-Hemera.hex'
@@ -28,3 +29,11 @@ steps:
     archiveFile: '$(Build.ArtifactStagingDirectory)/FW390-RC1-Build3272-1_75mm_MK3S-Bear-EINSy10a-E3D-Hemera.zip'
     replaceExistingArchive: true
     verbose: true
+  displayName: Artefact
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'FW390-RC1-Build3272-1_75mm_MK3S-Bear-EINSy10a-E3D-Hemera.zip'
+    publishLocation: 'Container'
+  displayName: Publish
