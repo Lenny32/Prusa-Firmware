@@ -11,7 +11,7 @@ pool:
 
 variables:
   boardname: '1_75mm_MK3S-Bear-EINSy10a-E3D-Hemera.h'
-  platform: x64
+  language: 'EN_ONLY'
 
 
 steps:
@@ -36,8 +36,11 @@ steps:
       echo $MOTHERBOARD
       echo $DEV_CHECK
       
-      ./PF-build.sh '$boardname' EN_ONLY $DEV_CHECK
-      cp ''../PF-build-hex/FW390-RC1-Build$COMMIT/BOARD_EINSY_1_0a/FW390-RC1-Build$COMMIT-1_75mm_MK3S-Bear-EINSy10a-E3D-Hemera-EN_ONLY.hex' $(Build.ArtifactStagingDirectory)/FW390-RC1-Build3272-1_75mm_MK3S-Bear-EINSy10a-E3D-Hemera-EN_ONLY.hex
+      echo '../PF-build-hex/FW$(FW)-$(DEV_CHECK)-Build$(COMMIT)/BOARD_EINSY_1_0a/FW$FW-$(DEV_CHECK)-Build$BUILD-$(boardname)ex'
+      echo '$(Build.ArtifactStagingDirectory)/FW$(FW)-$(DEV_CHECK)-Build$BUILD-$(boardname)ex'
+
+      ./PF-build.sh '$boardname' $(language) $DEV_CHECK
+      cp '../PF-build-hex/FW$(FW)-$(DEV_CHECK)-Build$(COMMIT)/BOARD_EINSY_1_0a/FW$FW-$(DEV_CHECK)-Build$BUILD-$(boardname)ex' '$(Build.ArtifactStagingDirectory)/FW$(FW)-$(DEV_CHECK)-Build$BUILD-$(boardname)ex'
   
   displayName: Build Hemera Bear English only release
 
