@@ -8,11 +8,38 @@
 #include "language.h"
 #include "Marlin.h"
 #include "mmu.h"
+#ifdef ENABLE_LOW_TEMP_FIRSTLAYER_CALIBRATION
+    #include "temperature.h"
+#endif
 #include <avr/pgmspace.h>
 
 //! @brief Wait for preheat
 void lay1cal_wait_preheat()
 {
+        #ifdef ENABLE_LOW_TEMP_FIRSTLAYER_CALIBRATION
+        char cmd_buffer[256];
+
+        int temperature = degTargetBed();
+
+        enquecommand_P(PSTR("M104 S" STRINGIFY(LOW_TEMP_FIRSTLAYER_CALIBRATION)));
+
+        sprintf_P(cmd_buffer, PSTR("M140 S%d"), temperature);
+        enquecommand(cmd_buffer);
+        
+        sprintf_P(cmd_buffer, PSTR("M190 S%d"), temperature);
+        enquecommand(cmd_buffer);
+
+        enquecommand_P(PSTR("M109 S" STRINGIFY(LOW_TEMP_FIRSTLAYER_CALIBRATION)));
+
+        temperature = degTargetHotend(0);
+
+        enquecommand_P(PSTR("G28"));
+        sprintf_P(cmd_buffer, PSTR("M104 S%d"), temperature);
+        enquecommand(cmd_buffer);
+        sprintf_P(cmd_buffer, PSTR("M109 S%d"), temperature);
+        enquecommand(cmd_buffer);
+        enquecommand_P(PSTR("G92 E0.0")); //set units to millimeters
+    #else
     static const char cmd_preheat_0[] PROGMEM = "M107";
     static const char cmd_preheat_1[] PROGMEM = "M190";
     static const char cmd_preheat_2[] PROGMEM = "M109";
@@ -33,6 +60,7 @@ void lay1cal_wait_preheat()
     {
         enquecommand_P(preheat_cmd[i]);
     }
+    #endif
 
 }
 

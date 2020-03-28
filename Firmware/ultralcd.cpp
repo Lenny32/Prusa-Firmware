@@ -1136,14 +1136,16 @@ void lcd_commands()
 		if (lcd_commands_step == 10 && !blocks_queued() && cmd_buffer_empty())
 		{
 			enquecommand_P(PSTR("M107"));
-			enquecommand_P(PSTR("M104 S" STRINGIFY(PLA_PREHEAT_HOTEND_TEMP)));
+			enquecommand_P(PSTR("M104 S" STRINGIFY(170)));
 			enquecommand_P(PSTR("M140 S" STRINGIFY(PLA_PREHEAT_HPB_TEMP)));
 			enquecommand_P(PSTR("M190 S" STRINGIFY(PLA_PREHEAT_HPB_TEMP)));
-			enquecommand_P(PSTR("M109 S" STRINGIFY(PLA_PREHEAT_HOTEND_TEMP)));
+			enquecommand_P(PSTR("M109 S" STRINGIFY(170)));
 			enquecommand_P(PSTR("T0"));
 			enquecommand_P(_T(MSG_M117_V2_CALIBRATION));
 			enquecommand_P(PSTR("G87")); //sets calibration status
 			enquecommand_P(PSTR("G28"));
+			enquecommand_P(PSTR("M104 S" STRINGIFY(PLA_PREHEAT_HOTEND_TEMP)));
+			enquecommand_P(PSTR("M109 S" STRINGIFY(PLA_PREHEAT_HOTEND_TEMP)));
 			enquecommand_P(PSTR("G21")); //set units to millimeters
 			enquecommand_P(PSTR("G90")); //use absolute coordinates
 			enquecommand_P(PSTR("M83")); //use relative distances for extrusion
@@ -2528,6 +2530,35 @@ static void mFilamentItem_FLEX()
     mFilamentItem(FLEX_PREHEAT_HOTEND_TEMP, FLEX_PREHEAT_HPB_TEMP);
 }
 
+#ifdef COLD_PLA_PREHEAT_HOTEND_TEMP
+static void mFilamentItem_COLD_PLA()
+{
+    bFilamentPreheatState = false;
+    mFilamentItem(COLD_PLA_PREHEAT_HOTEND_TEMP, COLD_PLA_PREHEAT_HPB_TEMP);
+}
+#endif
+#ifdef COLD_PET_PREHEAT_HOTEND_TEMP
+static void mFilamentItem_COLD_PET()
+{
+    bFilamentPreheatState = false;
+    mFilamentItem(COLD_PET_PREHEAT_HOTEND_TEMP, COLD_PET_PREHEAT_HPB_TEMP);
+}
+#endif
+#ifdef PREHEAT_HOTEND_PLA_TEMP_ONLY
+static void mFilamentItem_COLD_HPD_PLA()
+{
+    bFilamentPreheatState = false;
+    mFilamentItem(PREHEAT_HOTEND_PLA_TEMP_ONLY, PREHEAT_HPB_PLA_TEMP_ONLY);
+}
+#endif
+#ifdef PREHEAT_HOTEND_PET_TEMP_ONLY
+static void mFilamentItem_COLD_HPD_PET()
+{
+    bFilamentPreheatState = false;
+    mFilamentItem(PREHEAT_HOTEND_PET_TEMP_ONLY, PREHEAT_HPB_PET_TEMP_ONLY);
+}
+#endif
+
 void mFilamentBack()
 {
     menu_back();
@@ -2560,14 +2591,28 @@ void lcd_generic_preheat_menu()
     }
     else
     {
-        MENU_ITEM_SUBMENU_P(PSTR("PLA  -  " STRINGIFY(PLA_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(PLA_PREHEAT_HPB_TEMP)),mFilamentItem_PLA);
-        MENU_ITEM_SUBMENU_P(PSTR("PET  -  " STRINGIFY(PET_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(PET_PREHEAT_HPB_TEMP)),mFilamentItem_PET);
-        MENU_ITEM_SUBMENU_P(PSTR("ASA  -  " STRINGIFY(ASA_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(ASA_PREHEAT_HPB_TEMP)),mFilamentItem_ASA);
-        MENU_ITEM_SUBMENU_P(PSTR("ABS  -  " STRINGIFY(ABS_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(ABS_PREHEAT_HPB_TEMP)),mFilamentItem_ABS);
-        MENU_ITEM_SUBMENU_P(PSTR("HIPS -  " STRINGIFY(HIPS_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(HIPS_PREHEAT_HPB_TEMP)),mFilamentItem_HIPS);
-        MENU_ITEM_SUBMENU_P(PSTR("PP   -  " STRINGIFY(PP_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(PP_PREHEAT_HPB_TEMP)),mFilamentItem_PP);
-        MENU_ITEM_SUBMENU_P(PSTR("FLEX -  " STRINGIFY(FLEX_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(FLEX_PREHEAT_HPB_TEMP)),mFilamentItem_FLEX);
-    }
+		MENU_ITEM_SUBMENU_P(PSTR("PLA      - " STRINGIFY(PLA_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(PLA_PREHEAT_HPB_TEMP)),mFilamentItem_PLA);
+        #ifdef COLD_PLA_PREHEAT_HOTEND_TEMP
+			if(eFilamentAction != FilamentAction::UnLoad && eFilamentAction != FilamentAction::Load)
+				MENU_ITEM_SUBMENU_P(PSTR("PLA Cold - " STRINGIFY(COLD_PLA_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(COLD_PLA_PREHEAT_HPB_TEMP)),mFilamentItem_COLD_PLA);
+        #endif
+		#ifdef PREHEAT_HOTEND_PLA_TEMP_ONLY
+			MENU_ITEM_SUBMENU_P(PSTR("PLA noHB - " STRINGIFY(PREHEAT_HOTEND_PLA_TEMP_ONLY) "/" STRINGIFY(PREHEAT_HPB_PLA_TEMP_ONLY)),mFilamentItem_COLD_HPD_PLA);
+        #endif
+			MENU_ITEM_SUBMENU_P(PSTR("PET      - " STRINGIFY(PET_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(PET_PREHEAT_HPB_TEMP)),mFilamentItem_PET);
+		#ifdef COLD_PET_PREHEAT_HOTEND_TEMP
+			if(eFilamentAction != FilamentAction::UnLoad && eFilamentAction != FilamentAction::Load)
+				MENU_ITEM_SUBMENU_P(PSTR("PET Cold - " STRINGIFY(COLD_PET_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(COLD_PET_PREHEAT_HPB_TEMP)),mFilamentItem_COLD_PET);
+		#endif
+		#ifdef PREHEAT_HOTEND_PET_TEMP_ONLY
+			MENU_ITEM_SUBMENU_P(PSTR("PET noHB - " STRINGIFY(PREHEAT_HOTEND_PET_TEMP_ONLY) "/" STRINGIFY(PREHEAT_HPB_PET_TEMP_ONLY)),mFilamentItem_COLD_HPD_PET);
+		#endif
+			MENU_ITEM_SUBMENU_P(PSTR("ASA      - " STRINGIFY(ASA_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(ASA_PREHEAT_HPB_TEMP)),mFilamentItem_ASA);
+			MENU_ITEM_SUBMENU_P(PSTR("ABS      - " STRINGIFY(ABS_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(ABS_PREHEAT_HPB_TEMP)),mFilamentItem_ABS);
+			MENU_ITEM_SUBMENU_P(PSTR("HIPS     - " STRINGIFY(HIPS_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(HIPS_PREHEAT_HPB_TEMP)),mFilamentItem_HIPS);
+			MENU_ITEM_SUBMENU_P(PSTR("PP       - " STRINGIFY(PP_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(PP_PREHEAT_HPB_TEMP)),mFilamentItem_PP);
+			MENU_ITEM_SUBMENU_P(PSTR("FLEX     - " STRINGIFY(FLEX_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(FLEX_PREHEAT_HPB_TEMP)),mFilamentItem_FLEX);
+	}
     if (!eeprom_read_byte((uint8_t*)EEPROM_WIZARD_ACTIVE) && eFilamentAction == FilamentAction::Preheat) MENU_ITEM_FUNCTION_P(_T(MSG_COOLDOWN), lcd_cooldown);
     MENU_END();
 }
@@ -3511,12 +3556,17 @@ bool lcd_calibrate_z_end_stop_manual(bool only_z)
 calibrated:
     // Let the machine think the Z axis is a bit higher than it is, so it will not home into the bed
     // during the search for the induction points.
+#ifdef IS_BEAR
+	current_position[Z_AXIS] = Z_MAX_POS-3.f;
+#else 
 	if ((PRINTER_TYPE == PRINTER_MK25) || (PRINTER_TYPE == PRINTER_MK2) || (PRINTER_TYPE == PRINTER_MK2_SNMM)) {
 		current_position[Z_AXIS] = Z_MAX_POS-3.f;
 	}
 	else {
 		current_position[Z_AXIS] = Z_MAX_POS+4.f;
 	}
+#endif
+
     plan_set_position(current_position[X_AXIS], current_position[Y_AXIS], current_position[Z_AXIS], current_position[E_AXIS]);
     return true;
 
