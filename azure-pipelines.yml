@@ -24,6 +24,6 @@ steps:
     rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/FW390-RC1-Build3272-1_75mm_MK3S-Bear-EINSy10a-E3D-Hemera.hex'
     includeRootFolder: true
     archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/FW390-RC1-Build3272-1_75mm_MK3S-Bear-EINSy10a-E3D-Hemera.zip'
     replaceExistingArchive: true
     verbose: true
