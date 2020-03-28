@@ -58,7 +58,7 @@ steps:
       fi
       echo $DEV_CHECK
 
-      ./PF-build.sh $(CONFIGURATIONFILE) $LANGUAGE $DEV_CHECK
+      ./PF-build.sh "$(CONFIGURATIONFILE).h" $LANGUAGE $DEV_CHECK
       cp $SOURCE $DEST
       #ls "../PF-build-hex/FW390-RC1-Build$BUILD/BOARD_EINSY_1_0a/" 
       #./PF-build.sh $BOARDNAME $LANGUAGE $DEV_CHECK
