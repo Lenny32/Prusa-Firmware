@@ -47,9 +47,9 @@ steps:
       echo "$(Build.ArtifactStagingDirectory)/FW$FW-Build$BUILD$(CONFIGURATIONFILE)ex"
       echo '--'
       echo $LANGUAGE
-      if [[ "$DEV_CHECK" == "RC1"  ||  "$DEV_CHECK" == "RC2" ]] ; then
+      if [[ $DEV_CHECK == "RC*" ]] ; then
         DEV_STATUS="RC"
-      
+      fi
       echo $DEV_CHECK
 
       ./PF-build.sh $(CONFIGURATIONFILE) $LANGUAGE $DEV_CHECK
