@@ -10,7 +10,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  configurationFile: '1_75mm_MK3S-Bear-EINSy10a-E3D-Hemera.h'
+  configurationFile: '1_75mm_MK3S-Bear-EINSy10a-E3D-Hemera'
   language: 'EN_ONLY'
 
 
@@ -27,7 +27,7 @@ steps:
       BUILD=$(git rev-list HEAD --count)
 
       # Check if the motherboard is an EINSY and if so only one hex file will generated
-      MOTHERBOARD=$(grep --max-count=1 "\bMOTHERBOARD\b" Firmware/variants/$CONFIGURATIONFILE | sed -e's/  */ /g' |cut -d ' ' -f3)
+      MOTHERBOARD=$(grep --max-count=1 "\bMOTHERBOARD\b" Firmware/variants/$CONFIGURATIONFILE.h | sed -e's/  */ /g' |cut -d ' ' -f3)
       
       # Check development status
       DEV_CHECK=$(grep --max-count=1 "\bFW_VERSION\b" Firmware/Configuration.h | sed -e's/  */ /g'|cut -d '"' -f2|sed 's/\.//g'|cut -d '-' -f2)
@@ -40,8 +40,8 @@ steps:
       
       
       echo '--'
-      #     ../PF-build-hex/FW390-RC1-Build/BOARD_EINSY_1_0a/FW390-RC1-RC1-Build3871--Bear-EINSy10a-E3D-Hemera.hex
-      SOURCE="../PF-build-hex/FW$FW-Build$BUILD/$MOTHERBOARD/FW$FW-Build$BUILD$(CONFIGURATIONFILE)ex"
+      #     ../PF-build-hex/FW390-RC1-Build/BOARD_EINSY_1_0a/FW390-RC1-Build3888-1_75mm_MK3S-Bear-EINSy10a-E3D-Hemera-EN_ONLY.hex
+      SOURCE="../PF-build-hex/FW$FW-Build$BUILD/$MOTHERBOARD/FW$FW-Build$BUILD-$(CONFIGURATIONFILE)-$(LANGUAGE).hex"
       echo $SOURCE
       echo '--'
       #     home/vsts/work/1/a/FW390-RC1-Build3871--Bear-EINSy10a-E3D-Hemera.hex
@@ -58,7 +58,7 @@ steps:
 
       ./PF-build.sh $(CONFIGURATIONFILE) $LANGUAGE $DEV_CHECK
       cp $SOURCE $DEST
-      ls "../PF-build-hex/FW390-RC1-Build$BUILD/BOARD_EINSY_1_0a/" 
+      #ls "../PF-build-hex/FW390-RC1-Build$BUILD/BOARD_EINSY_1_0a/" 
       #./PF-build.sh $BOARDNAME $LANGUAGE $DEV_CHECK
       #cp '../PF-build-hex/FW$FW-$DEV_CHECK-Build$BUILD/BOARD_EINSY_1_0a/FW$FW-$DEV_CHECK-Build$(BUILD)-$(BOARDNAME)ex' '$(Build.ArtifactStagingDirectory)/FW$(FW)-$DEV_CHECK-Build$BUILD-$(BOARDNAME)ex'
   
