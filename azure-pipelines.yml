@@ -1,0 +1,71 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  configurationFile: '1_75mm_MK3S-Bear-EINSy10a-E3D-Hemera'
+  language: 'EN_ONLY'
+
+
+steps:
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      echo 'Build Hemera Bear English only release'
+      # Find firmware version in Configuration.h file and use it to generate the hex filename
+      FW=$(grep --max-count=1 "\bFW_VERSION\b" Firmware/Configuration.h | sed -e's/  */ /g'|cut -d '"' -f2|sed 's/\.//g')
+
+      # Find build version in Configuration.h file and use it to generate the hex filename
+      BUILD=$(git rev-list HEAD --count)
+
+      # Check if the motherboard is an EINSY and if so only one hex file will generated
+      MOTHERBOARD=$(grep --max-count=1 "\bMOTHERBOARD\b" Firmware/variants/$CONFIGURATIONFILE.h | sed -e's/  */ /g' |cut -d ' ' -f3)
+      
+      # Check development status
+      DEV_CHECK=$(grep --max-count=1 "\bFW_VERSION\b" Firmware/Configuration.h | sed -e's/  */ /g'|cut -d '"' -f2|sed 's/\.//g'|cut -d '-' -f2)
+      
+      echo $FW
+      echo $BUILD
+      echo $MOTHERBOARD
+      echo $DEV_CHECK
+      echo $CONFIGURATIONFILE
+      
+      
+      echo '--'
+      FILENAME="FW$FW-Build$BUILD-$(CONFIGURATIONFILE)-$(LANGUAGE).hex"
+      #     ../PF-build-hex/FW390-RC1-Build/BOARD_EINSY_1_0a/FW390-RC1-Build3888-1_75mm_MK3S-Bear-EINSy10a-E3D-Hemera-EN_ONLY.hex
+                                                             FW390-RC1-Build3890-1_75mm_MK3S-Bear-EINSy10a-E3D-Hemera-EN_ONLY.hex
+      SOURCE="../PF-build-hex/FW$FW-Build$BUILD/$MOTHERBOARD/$FILENAME"
+      echo $SOURCE
+      echo '--'
+      #     home/vsts/work/1/a/FW390-RC1-Build3871--Bear-EINSy10a-E3D-Hemera.hex
+      DEST="$(Build.ArtifactStagingDirectory)/$FILENAME"
+      echo $DEST
+      echo '--'
+      echo $LANGUAGE
+
+      echo $DEV_CHECK
+      if [[ "$DEV_CHECK" == RC* ]]; then
+        DEV_CHECK="RC"
+      fi
+      echo $DEV_CHECK
+
+      ./PF-build.sh "$(CONFIGURATIONFILE).h" $LANGUAGE $DEV_CHECK
+      cp $SOURCE $DEST
+  displayName: Build Hemera Bear English only release
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'FW390-RC1-Build3272-1_75mm_MK3S-Bear-EINSy10a-E3D-Hemera.zip'
+    publishLocation: 'Container'
+  displayName: Publish
+  enabled: true
