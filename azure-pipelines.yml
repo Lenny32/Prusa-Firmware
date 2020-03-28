@@ -9,44 +9,37 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
+variables:
+  boardname: '1_75mm_MK3S-Bear-EINSy10a-E3D-Hemera.h'
+  platform: x64
+
+
 steps:
-
 - task: Bash@3
   inputs:
     targetType: 'inline'
     script: |
-      BUIL=1111
-  displayName: Test
+      # Find firmware version in Configuration.h file and use it to generate the hex filename
+      FW=$(grep --max-count=1 "\bFW_VERSION\b" Firmware/Configuration.h | sed -e's/  */ /g'|cut -d '"' -f2|sed 's/\.//g')
 
-- task: Bash@3
-  inputs:
-    targetType: 'inline'
-    script: |
-      # Write your commands here   
-      ./PF-build.sh 1_75mm_MK3S-Bear-EINSy10a-E3D-Hemera.h EN_ONLY
-      cp ../PF-build-hex/FW390-RC1-Build3272/BOARD_EINSY_1_0a/FW390-RC1-Build3272-1_75mm_MK3S-Bear-EINSy10a-E3D-Hemera-EN_ONLY.hex $(Build.ArtifactStagingDirectory)/FW390-RC1-Build3272-1_75mm_MK3S-Bear-EINSy10a-E3D-Hemera-EN_ONLY.hex
-  displayName: Build Hemera Bear English only release
+      # Find build version in Configuration.h file and use it to generate the hex filename
+      BUILD=$(git rev-list HEAD --count)
 
-# - task: ArchiveFiles@2
-#   inputs:
-#     #rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/FW390-RC1-Build3272-1_75mm_MK3S-Bear-EINSy10a-E3D-Hemera.hex'
-#     rootFolderOrFile: '../PF-build-hex/FW390-RC1-Build3272/BOARD_EINSY_1_0a/FW390-RC1-Build3272-1_75mm_MK3S-Bear-EINSy10a-E3D-Hemera-EN_ONLY.hex'
-#     includeRootFolder: true
-#     archiveType: 'zip'
-#     archiveFile: '$(Build.ArtifactStagingDirectory)/FW390-RC1-Build3272-1_75mm_MK3S-Bear-EINSy10a-E3D-Hemera.zip'
-#     replaceExistingArchive: true
-#     verbose: true
-#   displayName: Artefact
-- task: Bash@3
-  inputs:
-    targetType: 'inline'
-    script: |      
+      # Check if the motherboard is an EINSY and if so only one hex file will generated
+      MOTHERBOARD=$(grep --max-count=1 "\bMOTHERBOARD\b" Firmware/variants/$boardname.h | sed -e's/  */ /g' |cut -d ' ' -f3)
+      
+      # Check development status
+      DEV_CHECK=$(grep --max-count=1 "\bFW_VERSION\b" Firmware/Configuration.h | sed -e's/  */ /g'|cut -d '"' -f2|sed 's/\.//g'|cut -d '-' -f2)
+      
+      echo $FW
       echo $BUILD
       echo $MOTHERBOARD
-      echo $FW
       echo $DEV_CHECK
-
-
+      
+      ./PF-build.sh '$boardname' EN_ONLY $DEV_CHECK
+      cp ''../PF-build-hex/FW390-RC1-Build$COMMIT/BOARD_EINSY_1_0a/FW390-RC1-Build$COMMIT-1_75mm_MK3S-Bear-EINSy10a-E3D-Hemera-EN_ONLY.hex' $(Build.ArtifactStagingDirectory)/FW390-RC1-Build3272-1_75mm_MK3S-Bear-EINSy10a-E3D-Hemera-EN_ONLY.hex
+  
+  displayName: Build Hemera Bear English only release
 
 - task: PublishBuildArtifacts@1
   inputs:
