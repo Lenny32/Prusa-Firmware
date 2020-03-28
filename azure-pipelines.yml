@@ -27,7 +27,7 @@ steps:
       BUILD=$(git rev-list HEAD --count)
 
       # Check if the motherboard is an EINSY and if so only one hex file will generated
-      MOTHERBOARD=$(grep --max-count=1 "\bMOTHERBOARD\b" Firmware/variants/$(BOARDNAME).h | sed -e's/  */ /g' |cut -d ' ' -f3)
+      MOTHERBOARD=$(grep --max-count=1 "\bMOTHERBOARD\b" Firmware/variants/$(BOARDNAME) | sed -e's/  */ /g' |cut -d ' ' -f3)
       
       # Check development status
       DEV_CHECK=$(grep --max-count=1 "\bFW_VERSION\b" Firmware/Configuration.h | sed -e's/  */ /g'|cut -d '"' -f2|sed 's/\.//g'|cut -d '-' -f2)
