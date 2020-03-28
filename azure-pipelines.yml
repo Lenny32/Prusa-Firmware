@@ -26,7 +26,7 @@ steps:
       BUILD=$(git rev-list HEAD --count)
 
       # Check if the motherboard is an EINSY and if so only one hex file will generated
-      MOTHERBOARD=$(grep --max-count=1 "\bMOTHERBOARD\b" Firmware/variants/$boardname.h | sed -e's/  */ /g' |cut -d ' ' -f3)
+      MOTHERBOARD=$(grep --max-count=1 "\bMOTHERBOARD\b" Firmware/variants/$BOARDNAME.h | sed -e's/  */ /g' |cut -d ' ' -f3)
       
       # Check development status
       DEV_CHECK=$(grep --max-count=1 "\bFW_VERSION\b" Firmware/Configuration.h | sed -e's/  */ /g'|cut -d '"' -f2|sed 's/\.//g'|cut -d '-' -f2)
@@ -36,11 +36,11 @@ steps:
       echo $MOTHERBOARD
       echo $DEV_CHECK
       
-      echo '../PF-build-hex/FW$(FW)-$(DEV_CHECK)-Build$(COMMIT)/BOARD_EINSY_1_0a/FW$FW-$(DEV_CHECK)-Build$BUILD-$(boardname)ex'
-      echo '$(Build.ArtifactStagingDirectory)/FW$(FW)-$(DEV_CHECK)-Build$BUILD-$(boardname)ex'
+      echo '../PF-build-hex/FW$(FW)-$(DEV_CHECK)-Build$(COMMIT)/BOARD_EINSY_1_0a/FW$FW-$(DEV_CHECK)-Build$BUILD-$(BOARDNAME)ex'
+      echo '$(Build.ArtifactStagingDirectory)/FW$(FW)-$(DEV_CHECK)-Build$BUILD-$(BOARDNAME)ex'
 
-      ./PF-build.sh '$boardname' $(language) $DEV_CHECK
-      cp '../PF-build-hex/FW$(FW)-$(DEV_CHECK)-Build$(COMMIT)/BOARD_EINSY_1_0a/FW$FW-$(DEV_CHECK)-Build$BUILD-$(boardname)ex' '$(Build.ArtifactStagingDirectory)/FW$(FW)-$(DEV_CHECK)-Build$BUILD-$(boardname)ex'
+      ./PF-build.sh '$BOARDNAME' $(LANGUAGE) $DEV_CHECK
+      cp '../PF-build-hex/FW$(FW)-$(DEV_CHECK)-Build$(COMMIT)/BOARD_EINSY_1_0a/FW$FW-$(DEV_CHECK)-Build$BUILD-$(BOARDNAME)ex' '$(Build.ArtifactStagingDirectory)/FW$(FW)-$(DEV_CHECK)-Build$BUILD-$(BOARDNAME)ex'
   
   displayName: Build Hemera Bear English only release
 
