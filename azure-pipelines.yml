@@ -72,4 +72,4 @@ steps:
     ArtifactName: 'FW390-RC1-Build3272-1_75mm_MK3S-Bear-EINSy10a-E3D-Hemera.zip'
     publishLocation: 'Container'
   displayName: Publish
-  enabled: false
+  enabled: true
