@@ -41,7 +41,7 @@ steps:
       
       echo '--'
       #     ../PF-build-hex/FW390-RC1-Build/BOARD_EINSY_1_0a/FW390-RC1-RC1-Build3871--Bear-EINSy10a-E3D-Hemera.hex
-      SOURCE="../PF-build-hex/FW$FW-Build$COMMIT/$MOTHERBOARD/FW$FW-Build$BUILD$(CONFIGURATIONFILE)ex"
+      SOURCE="../PF-build-hex/FW$FW-Build$BUILD/$MOTHERBOARD/FW$FW-Build$BUILD$(CONFIGURATIONFILE)ex"
       echo $SOURCE
       echo '--'
       #     home/vsts/work/1/a/FW390-RC1-Build3871--Bear-EINSy10a-E3D-Hemera.hex
