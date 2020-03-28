@@ -46,8 +46,9 @@ steps:
       #     home/vsts/work/1/a/FW390-RC1-RC1-Build3871--Bear-EINSy10a-E3D-Hemera.hex
       echo "$(Build.ArtifactStagingDirectory)/FW$FW-Build$BUILD$(CONFIGURATIONFILE)ex"
       echo '--'
-      
-      #./PF-build.sh $BOARDNAME $LANGUAGE $DEV_CHECK
+      echo $LANGUAGE
+
+      ./PF-build.sh $(CONFIGURATIONFILE) $LANGUAGE $DEV_CHECK
       #cp '../PF-build-hex/FW$FW-$DEV_CHECK-Build$BUILD/BOARD_EINSY_1_0a/FW$FW-$DEV_CHECK-Build$(BUILD)-$(BOARDNAME)ex' '$(Build.ArtifactStagingDirectory)/FW$(FW)-$DEV_CHECK-Build$BUILD-$(BOARDNAME)ex'
   
   displayName: Build Hemera Bear English only release
