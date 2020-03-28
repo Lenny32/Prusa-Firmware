@@ -40,14 +40,17 @@ steps:
       
       
       echo '--'
-      #     ../PF-build-hex/FW390-RC1-RC1-Build/BOARD_EINSY_1_0a/FW390-RC1-RC1-Build3871--Bear-EINSy10a-E3D-Hemera.hex
+      #     ../PF-build-hex/FW390-RC1-Build/BOARD_EINSY_1_0a/FW390-RC1-RC1-Build3871--Bear-EINSy10a-E3D-Hemera.hex
       echo "../PF-build-hex/FW$FW-Build$COMMIT/$MOTHERBOARD/FW$FW-Build$BUILD$(CONFIGURATIONFILE)ex"
       echo '--'
-      #     home/vsts/work/1/a/FW390-RC1-RC1-Build3871--Bear-EINSy10a-E3D-Hemera.hex
+      #     home/vsts/work/1/a/FW390-RC1-Build3871--Bear-EINSy10a-E3D-Hemera.hex
       echo "$(Build.ArtifactStagingDirectory)/FW$FW-Build$BUILD$(CONFIGURATIONFILE)ex"
       echo '--'
       echo $LANGUAGE
-      if [[ $DEV_CHECK == "RC1" ]] ; then
+
+      
+      echo $DEV_CHECK
+      if [[ "$DEV_CHECK" == RC* ]]; then
         DEV_STATUS="RC"
       fi
       echo $DEV_CHECK
