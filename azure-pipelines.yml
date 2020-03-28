@@ -21,7 +21,8 @@ steps:
   displayName: Build Hemera Bear English only release
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/FW390-RC1-Build3272-1_75mm_MK3S-Bear-EINSy10a-E3D-Hemera.hex'
+    #rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/FW390-RC1-Build3272-1_75mm_MK3S-Bear-EINSy10a-E3D-Hemera.hex'
+    rootFolderOrFile: '../PF-build-hex/FW390-RC1-Build3272/BOARD_EINSY_1_0a/FW390-RC1-Build3272-1_75mm_MK3S-Bear-EINSy10a-E3D-Hemera-EN_ONLY.hex'
     includeRootFolder: true
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/FW390-RC1-Build3272-1_75mm_MK3S-Bear-EINSy10a-E3D-Hemera.zip'
