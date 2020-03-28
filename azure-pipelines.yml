@@ -41,7 +41,8 @@ steps:
       echo '$(Build.ArtifactStagingDirectory)/FW$FW-$DEV_CHECK-Build$BUILD-$(BOARDNAME)ex'
 
       ./PF-build.sh $BOARDNAME $LANGUAGE $DEV_CHECK
-      cp '../PF-build-hex/FW$FW-$DEV_CHECK-Build$(COMMIT)/BOARD_EINSY_1_0a/FW$FW-$DEV_CHECK-Build$(BUILD)-$(BOARDNAME)ex' '$(Build.ArtifactStagingDirectory)/FW$(FW)-$DEV_CHECK-Build$BUILD-$(BOARDNAME)ex'
+      cp '../PF-build-hex/FW$FW-$DEV_CHECK-Build$BUILD/BOARD_EINSY_1_0a/FW$FW-$DEV_CHECK-Build$(BUILD)-$(BOARDNAME)ex' '$(Build.ArtifactStagingDirectory)/FW$(FW)-$DEV_CHECK-Build$BUILD-$(BOARDNAME)ex'
+  
   displayName: Build Hemera Bear English only release
 
 - task: PublishBuildArtifacts@1
