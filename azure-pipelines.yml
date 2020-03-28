@@ -47,6 +47,8 @@ steps:
       echo "$(Build.ArtifactStagingDirectory)/FW$FW-Build$BUILD$(CONFIGURATIONFILE)ex"
       echo '--'
       echo $LANGUAGE
+      if [[ "$DEV_CHECK" == "RC1"  ||  "$DEV_CHECK" == "RC2" ]] ; then
+			  DEV_STATUS="RC"
 
       ./PF-build.sh $(CONFIGURATIONFILE) $LANGUAGE $DEV_CHECK
       #cp '../PF-build-hex/FW$FW-$DEV_CHECK-Build$BUILD/BOARD_EINSY_1_0a/FW$FW-$DEV_CHECK-Build$(BUILD)-$(BOARDNAME)ex' '$(Build.ArtifactStagingDirectory)/FW$(FW)-$DEV_CHECK-Build$BUILD-$(BOARDNAME)ex'
