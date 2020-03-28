@@ -17,7 +17,7 @@ steps:
       # Write your commands here   
       ./PF-build.sh 1_75mm_MK3S-Bear-EINSy10a-E3D-Hemera.h EN_ONLY
       cp '../PF-build-hex/FW390-RC1-Build3272/BOARD_EINSY_1_0a/FW390-RC1-Build3272-1_75mm_MK3S-Bear-EINSy10a-E3D-Hemera.hex' .
-      ls
+      ls ../
       echo $(Build.ArtifactStagingDirectory)
   displayName: Build Hemera Bear English only release
 - task: ArchiveFiles@2
