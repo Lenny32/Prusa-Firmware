@@ -48,10 +48,9 @@ steps:
       echo '--'
       echo $LANGUAGE
 
-      
       echo $DEV_CHECK
       if [[ "$DEV_CHECK" == RC* ]]; then
-        DEV_STATUS="RC"
+        DEV_CHECK="RC"
       fi
       echo $DEV_CHECK
 
