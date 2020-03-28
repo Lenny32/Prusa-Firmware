@@ -41,10 +41,10 @@ steps:
       
       echo '--'
       #     ../PF-build-hex/FW390-RC1-RC1-Build/BOARD_EINSY_1_0a/FW390-RC1-RC1-Build3871--Bear-EINSy10a-E3D-Hemera.hex
-      echo "../PF-build-hex/FW$FW-Build$COMMIT/$MOTHERBOARD/FW$FW-$DEV_CHECK-Build$BUILD-$BOARDNAME$(CONFIGURATIONFILE)ex"
+      echo "../PF-build-hex/FW$FW-Build$COMMIT/$MOTHERBOARD/FW$FW-Build$BUILD-$BOARDNAME$(CONFIGURATIONFILE)ex"
       echo '--'
       #     home/vsts/work/1/a/FW390-RC1-RC1-Build3871--Bear-EINSy10a-E3D-Hemera.hex
-      echo "$(Build.ArtifactStagingDirectory)/FW$FW-$DEV_CHECK-Build$BUILD-$BOARDNAME$(CONFIGURATIONFILE)ex"
+      echo "$(Build.ArtifactStagingDirectory)/FW$FW-Build$BUILD-$BOARDNAME$(CONFIGURATIONFILE)ex"
       echo '--'
       
       #./PF-build.sh $BOARDNAME $LANGUAGE $DEV_CHECK
