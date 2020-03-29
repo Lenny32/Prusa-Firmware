@@ -40,7 +40,7 @@
 #define PREHEAT_HPB_PET_TEMP_ONLY 0
 
 //Low temperature while probing for the first layer configuration
-//#define ENABLE_LOW_TEMP_FIRSTLAYER_CALIBRATION
+#define ENABLE_LOW_TEMP_FIRSTLAYER_CALIBRATION
 #ifdef ENABLE_LOW_TEMP_FIRSTLAYER_CALIBRATION
     #define LOW_TEMP_FIRSTLAYER_CALIBRATION 170
 #endif
