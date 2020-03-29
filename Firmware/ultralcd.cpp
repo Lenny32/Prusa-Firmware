@@ -2593,7 +2593,7 @@ void lcd_generic_preheat_menu()
     {
 		MENU_ITEM_SUBMENU_P(PSTR("PLA      - " STRINGIFY(PLA_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(PLA_PREHEAT_HPB_TEMP)),mFilamentItem_PLA);
         #ifdef COLD_PLA_PREHEAT_HOTEND_TEMP
-			if(eFilamentAction != FilamentAction::UnLoad && eFilamentAction != FilamentAction::Load)
+			if(eFilamentAction != FilamentAction::UnLoad && eFilamentAction != FilamentAction::Load && eFilamentAction != FilamentAction::Lay1Cal)
 				MENU_ITEM_SUBMENU_P(PSTR("PLA Cold - " STRINGIFY(COLD_PLA_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(COLD_PLA_PREHEAT_HPB_TEMP)),mFilamentItem_COLD_PLA);
         #endif
 		#ifdef PREHEAT_HOTEND_PLA_TEMP_ONLY
@@ -2601,7 +2601,7 @@ void lcd_generic_preheat_menu()
         #endif
 			MENU_ITEM_SUBMENU_P(PSTR("PET      - " STRINGIFY(PET_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(PET_PREHEAT_HPB_TEMP)),mFilamentItem_PET);
 		#ifdef COLD_PET_PREHEAT_HOTEND_TEMP
-			if(eFilamentAction != FilamentAction::UnLoad && eFilamentAction != FilamentAction::Load)
+			if(eFilamentAction != FilamentAction::UnLoad && eFilamentAction != FilamentAction::Load && eFilamentAction != FilamentAction::Lay1Cal)
 				MENU_ITEM_SUBMENU_P(PSTR("PET Cold - " STRINGIFY(COLD_PET_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(COLD_PET_PREHEAT_HPB_TEMP)),mFilamentItem_COLD_PET);
 		#endif
 		#ifdef PREHEAT_HOTEND_PET_TEMP_ONLY
